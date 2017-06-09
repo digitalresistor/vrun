@@ -11,6 +11,7 @@ def main():
 
     os.putenv('PATH', PATH)
     os.putenv('VRUN_ACTIVATED', '1')
+    os.putenv('VIRTUAL_ENV', sys.prefix)
     newargv = sys.argv[1:]
 
     if not newargv:
