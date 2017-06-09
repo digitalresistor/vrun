@@ -18,7 +18,7 @@ tests_require = [
 
 setup(
     name='vrun',
-    version='0.0.0a0',
+    version='0.1',
     description=(
         'Adds the virtual environment\'s bin directory to PATH before executing a command'
     ),
@@ -44,9 +44,9 @@ setup(
     zip_safe=False,
     keywords='virtualenv',
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: ISC License (ISCL)',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
