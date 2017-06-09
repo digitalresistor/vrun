@@ -26,7 +26,7 @@ setup(
     author='Bert JW Regeer',
     author_email='bertjw@regeer.org',
     url='https://github.com/bertjwregeer/vrun',
-    license='MIT',
+    license='ISC',
     packages=find_packages('src', exclude=['tests']),
     package_dir={'': 'src'},
     include_package_data=True,
