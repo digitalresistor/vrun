@@ -40,4 +40,6 @@ with the left hand only and is slightly faster to roll off the keyboard!
 License
 -------
 
-.. include: LICENSE
+Please see the `LICENSE
+<https://github.com/bertjwregeer/vrun/blob/master/LICENSE>`_ file in the source
+code repository 
