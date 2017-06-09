@@ -20,7 +20,7 @@ setup(
     name='vrun',
     version='0.0.0a0',
     description=(
-        'Patches up the environment and runs a tool from the local virtualenv'
+        'Adds the virtual environment\'s bin directory to PATH before executing a command'
     ),
     long_description=readme + '\n\n' + changes,
     author='Bert JW Regeer',
@@ -35,7 +35,12 @@ setup(
         'docs': docs_require,
         'testing': tests_require,
     },
-    entry_points={"console_scripts": ["vrun = vrun.cli:main"]},
+    entry_points={
+        "console_scripts": [
+            "vrun = vrun.cli:main",
+            "vexec = vrun.cli:main",
+        ]
+    },
     zip_safe=False,
     keywords='virtualenv',
     classifiers=[
