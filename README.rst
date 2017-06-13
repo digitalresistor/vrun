@@ -14,11 +14,22 @@ recommended that script writers do this.
 Use
 ---
 
+On macOS/FreeBSD/Linux/Unix:
+
 .. code::
 
     $ python3 -mvenv ./env/
     $ ./env/bin/pip install vrun
     $ ./env/bin/vrun /bin/bash -c 'echo $PATH'
+
+
+On Windows:
+
+.. code::
+
+    C:\> python3.exe -mvenv env
+    C:\> env\Scripts\pip.exe install vrun
+    C:\> env\Scripts\vrun.exe python -c "import os; print(os.environ['PATH'])"
 
 
 If for example there is a script that executes ``pip`` without explicitly
@@ -27,9 +38,17 @@ providing a PATH that includes a virtual environment the system installed
 will come first in the search path and thus ``pip`` will be safely executed
 within the context of the virtual environment.
 
+Such as a shell script:
+
 .. code::
 
     $ ./env/bin/vrun ./myscript.sh
+
+Or executing a Windows batch script:
+
+.. code::
+
+    C:\> env\Scripts\vrun.exe script.bat
 
 vrun or vexec
 -------------

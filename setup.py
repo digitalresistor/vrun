@@ -18,7 +18,7 @@ tests_require = [
 
 setup(
     name='vrun',
-    version='0.2',
+    version='0.3',
     description=(
         'Adds the virtual environment\'s bin directory to PATH before executing a command'
     ),
