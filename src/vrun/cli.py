@@ -12,10 +12,12 @@ def main():
     else:
         PATH = binpath
 
+    newenv = os.environ
 
-    os.putenv('PATH', PATH)
-    os.putenv('VRUN_ACTIVATED', '1')
-    os.putenv('VIRTUAL_ENV', sys.prefix)
+    newenv['PATH'] = PATH
+    newenv['VRUN_ACTIVATED'] = '1'
+    newenv['VIRTUAL_ENV'] = sys.prefix
+
     newargv = sys.argv[1:]
 
     if not newargv:
@@ -35,7 +37,7 @@ def main():
 
     try:
         # Execute the actual executable...
-        os.execv(execbin, newargv)
+        os.execve(execbin, newargv, newenv)
     except Exception as e:
         print('vrun was unable to execute the target executable.', file=sys.stderr)
         print('Executable: {}'.format(execbin), file=sys.stderr)
