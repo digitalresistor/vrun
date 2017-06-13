@@ -6,8 +6,12 @@ def main():
     prefix = sys.prefix
     binpath = os.path.join(prefix, 'bin')
 
-    PATH = os.environ.get('PATH', [])
-    PATH = binpath + os.pathsep + PATH
+    PATH = os.environ.get('PATH', '')
+    if PATH:
+        PATH = binpath + os.pathsep + PATH
+    else:
+        PATH = binpath
+
 
     os.putenv('PATH', PATH)
     os.putenv('VRUN_ACTIVATED', '1')
