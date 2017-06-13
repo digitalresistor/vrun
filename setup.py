@@ -20,7 +20,8 @@ setup(
     name='vrun',
     version='0.3',
     description=(
-        'Adds the virtual environment\'s bin directory to PATH before executing a command'
+        "Adds Python's bin/Scripts directory to PATH before executing a command. "
+        "Primarily used with Python virtual environments."
     ),
     long_description=readme + '\n\n' + changes,
     author='Bert JW Regeer',
@@ -42,7 +43,7 @@ setup(
         ]
     },
     zip_safe=False,
-    keywords='virtualenv',
+    keywords='virtualenv vexec vrun venv bin Scripts',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

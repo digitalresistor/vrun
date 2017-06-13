@@ -1,11 +1,17 @@
 vrun
 ====
 
+Adds Python's bin/Scripts directory to ``PATH`` before executing a command.
+Primarily used with Python virtual environments.
+
+Overview
+--------
+
 A small Python helper tool that will modify the ``PATH`` in the environment
-before executing the provided executable. This is useful when programs expect
-certain binaries to be available in ``PATH`` so they can execute them using
-``os.popen()`` and friends or even for shell scripts that are executing Python
-tools that one would prefer to not globally install.
+before executing the executable provided as the first argument. This is useful
+when programs expect certain binaries to be available in ``PATH`` so they can
+execute them using ``os.popen()`` and friends or even for shell scripts that
+are executing Python tools that one would prefer to not globally install.
 
 Scripts may detect that vrun has been used by looking for the environment
 variable ``VRUN_ACTIVATED`` which is set to ``1`` when run. It is not
