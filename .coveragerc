@@ -1,0 +1,18 @@
+[run]
+parallel = true
+source =
+    vrun
+    tests
+
+[paths]
+source =
+    src/vrun
+    */site-packages/vrun
+
+[report]
+show_missing = true
+precision = 2
+omit =
+    src/vrun/__main__.py
+    src/vrun/compat.py
+    tests/test_oscompat_win.py
