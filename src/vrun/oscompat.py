@@ -13,7 +13,7 @@ if not WIN:
     def exec_bin(execbin, argv, env):
         os.execve(execbin, argv, env)
 
-else: # pragma: nocover
+else:  # pragma: nocover
     import subprocess
 
     def get_binpath(prefix):

@@ -8,6 +8,7 @@ from .oscompat import (
     exec_bin,
 )
 
+
 def main():
     prefix = sys.prefix
     binpath = get_binpath(prefix)
