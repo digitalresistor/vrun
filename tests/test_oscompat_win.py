@@ -10,13 +10,13 @@ from vrun import oscompat
 pytestmark = [pytest.mark.skipif(not oscompat.WIN, reason="Tests are Windows only")]
 
 def test_get_binpath():
-    assert oscompat.get_binpath('test') == 'test/Scripts'
+    assert oscompat.get_binpath('test') == 'test\\Scripts'
 
 def test_get_exec_path():
-    assert oscompat.get_exec_path('bin', 'cmd') == 'bin/cmd.exe'
+    assert oscompat.get_exec_path('bin', 'cmd') == 'bin\\cmd.exe'
 
 def test_get_exec_path_exe():
-    assert oscompat.get_exec_path('bin', 'cmd.exe') == 'bin/cmd.exe'
+    assert oscompat.get_exec_path('bin', 'cmd.exe') == 'bin\\cmd.exe'
 
 def test_exec_bin(monkeypatch):
     class Popen(object):
@@ -42,9 +42,11 @@ def test_exec_bin(monkeypatch):
 
     monkeypatch.setattr(sys, 'exit', exit)
 
-    oscompat.exec_bin('/bin/bash', ['/bin/bash', 'test'], [])
+    oscompat.exec_bin('bin\\bash.exe', ['bin\\bash', 'test'], [])
 
     assert popen_monkey.communicate_called is True
-    assert len(popen_monkey.args) == 2
+    assert len(popen_monkey.args) == 1
+    assert len(popen_monkey.args[0]) == 2
+    assert popen_monkey.args[0] == ['bin\\bash.exe', 'test']
     assert popen_monkey.kw['env'] == []
     assert popen_monkey.kw['universal_newlines'] is True
