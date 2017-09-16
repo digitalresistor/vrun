@@ -28,7 +28,7 @@ def test_exec_bin(monkeypatch):
             self.args = args
             self.kw = kw
 
-            return 0
+            return self
 
         def communicate(self):
             self.communicate_called = True
