@@ -22,11 +22,12 @@ def test_exec_bin(monkeypatch):
     class Popen(object):
         def __init__(self, *args, **kw):
             self.communicate_called = False
-            pass
+            self.returncode = -1
 
         def __call__(self, *args, **kw):
             self.args = args
             self.kw = kw
+            self.returncode = 0
 
             return self
 
