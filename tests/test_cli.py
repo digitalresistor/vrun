@@ -95,7 +95,12 @@ def test_main_not_exists(disable_exec_bin, capsys, update_sys_argv, update_os_en
     out, err = capsys.readouterr()
     assert 'vrun requires that the target executable exists.' in err
 
-def test_main_execve_failed(disable_exec_bin, capsys, update_sys_argv, update_os_environ):
+def test_main_execve_failed(
+    disable_exec_bin,
+    capsys,
+    update_sys_argv,
+    update_os_environ
+):
     update_sys_argv(['vrun', 'python'])
     update_os_environ({})
     disable_exec_bin.raise_exception = True
