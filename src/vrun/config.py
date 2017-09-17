@@ -3,6 +3,7 @@ import itertools
 
 from .compat import ConfigParser
 
+
 def find_config(path=os.getcwd()):
     check_files = [
         # config file, check for vrun section
@@ -79,3 +80,55 @@ def quoted_combine(parts):
 
         yield part
 
+
+class Config(object):
+    """
+    Configuration object that takes a ConfigParser
+    """
+    def __init__(self, config):
+        self.config = config
+
+    def has_command(self, command):
+        return (
+            self.config.has_section('vrun') and
+            self.config.has_option('vrun', command)
+        )
+
+    def interpolate_command(self, command, posargs):
+        if self.has_command(command):
+            command = self.config.get('vrun', command)
+            parts = itertools.chain.from_iterable(
+                filter(
+                    None,
+                    [
+                        x.strip().split(' ') for x
+                        in command.splitlines()
+                    ]
+                )
+            )
+
+            argv = quoted_combine(parts)
+
+            if posargs:
+                def interpolate():
+                    pos_args_found = False
+
+                    for arg in argv:
+                        if arg == '{posargs}':
+                            pos_args_found = True
+                            for posarg in posargs:
+                                yield posarg
+                        else:
+                            yield arg
+
+                    if pos_args_found is False:
+                        for posarg in posargs:
+                            yield posarg
+
+                argv = list(interpolate())
+            else:
+                argv = list(argv)
+
+            return argv
+        else:
+            raise KeyError("Command does not exist in the configuration file")
