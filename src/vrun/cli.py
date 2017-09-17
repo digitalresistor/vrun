@@ -2,6 +2,12 @@ from __future__ import print_function
 import os
 import sys
 
+from .config import (
+    Config,
+    config_from_file,
+    find_config,
+)
+
 from .oscompat import (
     get_binpath,
     get_exec_path,
@@ -10,6 +16,19 @@ from .oscompat import (
 
 
 def main():
+    cfg = None
+    config_file = find_config()
+
+    if config_file:
+        try:
+            cfg = Config(config_from_file(config_file))
+        except:
+            print('Configuration file: {} found, '
+                  'but may be malformed, continuing without'.format(config_file),
+                  file=sys.stderr
+                  )
+            cfg = None
+
     prefix = sys.prefix
     binpath = get_binpath(prefix)
 
