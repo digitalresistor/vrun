@@ -47,6 +47,10 @@ from vrun.compat import ConfigParser
         ['" ', ' "'],
         ['   ']
     ),
+    (
+        ['one', 'two', '"three', 'four"'],
+        ['one', 'two', 'three four']
+    ),
 ])
 def test_quoted_combine(parts, result):
     assert list(config.quoted_combine(parts)) == result
