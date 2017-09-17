@@ -83,10 +83,10 @@ def test_find_config(folder, result):
         assert config.find_config(cwd) == result
 
 
-@pytest.mark.parametrize('folder, result', [
-    ('configtest', 'vrun.cfg'),
-    ('configtest/vrun_ini', 'vrun.ini'),
-    ('configtest/setup_cfg', 'setup.cfg'),
+@pytest.mark.parametrize('folder', [
+    'configtest',
+    os.path.join('configtest', 'vrun_ini'),
+    os.path.join('configtest', 'setup_cfg'),
 ])
 def test_config_from_file(folder, result):
     curpath = os.path.dirname(os.path.realpath(__file__))
