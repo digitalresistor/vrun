@@ -88,7 +88,7 @@ def test_find_config(folder, result):
     os.path.join('configtest', 'vrun_ini'),
     os.path.join('configtest', 'setup_cfg'),
 ])
-def test_config_from_file(folder, result):
+def test_config_from_file(folder):
     curpath = os.path.dirname(os.path.realpath(__file__))
     cwd = os.path.join(curpath, folder)
 
