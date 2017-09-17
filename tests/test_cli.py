@@ -8,6 +8,13 @@ from vrun import cli
 from vrun.oscompat import WIN
 
 @pytest.fixture()
+def cwd_is_empty(monkeypatch):
+    curpath = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.path.join(curpath, 'configtest', 'empty')
+
+    monkeypatch.setattr(os, 'getcwd', lambda: cwd)
+
+@pytest.fixture()
 def disable_exec_bin(monkeypatch):
     class DummyExecBin(object):
         def __init__(self):
@@ -56,7 +63,7 @@ def update_os_environ(monkeypatch):
 
     return do_update
 
-def test_main(disable_exec_bin, capsys, update_sys_argv):
+def test_main(disable_exec_bin, capsys, update_sys_argv, cwd_is_empty):
     update_sys_argv([])
 
     with pytest.raises(DummyExit) as e:
@@ -66,7 +73,8 @@ def test_main(disable_exec_bin, capsys, update_sys_argv):
     out, err = capsys.readouterr()
     assert 'vrun requires the program to execute as an argument.' in err
 
-def test_main_exists(disable_exec_bin, update_sys_argv, update_os_environ):
+
+def test_main_exists(disable_exec_bin, update_sys_argv, update_os_environ, cwd_is_empty):
     update_sys_argv(['vrun', 'python'])
     update_os_environ({})
 
@@ -84,7 +92,14 @@ def test_main_exists(disable_exec_bin, update_sys_argv, update_os_environ):
     assert 'VIRTUAL_ENV' in disable_exec_bin.env
     assert 'PATH' in disable_exec_bin.env
 
-def test_main_not_exists(disable_exec_bin, capsys, update_sys_argv, update_os_environ):
+
+def test_main_not_exists(
+    disable_exec_bin,
+    capsys,
+    update_sys_argv,
+    update_os_environ,
+    cwd_is_empty
+):
     update_sys_argv(['vrun', 'this_should_not_exist'])
     update_os_environ({})
 
@@ -99,7 +114,8 @@ def test_main_execve_failed(
     disable_exec_bin,
     capsys,
     update_sys_argv,
-    update_os_environ
+    update_os_environ,
+    cwd_is_empty
 ):
     update_sys_argv(['vrun', 'python'])
     update_os_environ({})
