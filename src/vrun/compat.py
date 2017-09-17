@@ -7,4 +7,4 @@ PY2 = sys.version_info[0] == 2
 try:
     from configparser import ConfigParser
 except ImportError:
-    from ConfigParser import ConfigParser
+    from ConfigParser import SafeConfigParser as ConfigParser
