@@ -94,3 +94,68 @@ def test_config_from_file(folder):
 
     config_file = config.find_config(cwd)
     assert isinstance(config.config_from_file(config_file), ConfigParser)
+
+
+def test_Config_has_command():
+    config_dict = {
+        'vrun':
+            {
+                'singlecommand': '/bin/bash',
+                'interpolate': '/bin/bash {posargs} testing',
+            }
+        }
+    cp = ConfigParser()
+    cp.read_dict(config_dict)
+
+    cfg = config.Config(cp)
+
+    assert cfg.has_command('singlecommand') is True
+    assert cfg.has_command('interpolate') is True
+    assert cfg.has_command('nonexistent') is False
+
+
+_config_dict = {
+    'vrun':
+        {
+            'singlecommand': '/bin/bash',
+            'simple': 'bash',
+            'interpolate': '/bin/bash {posargs} testing',
+            'ip': 'bash "quoted string" {posargs} testing',
+        }
+    }
+
+
+@pytest.mark.parametrize('config_dict, command, posargs, result', [
+    (_config_dict, 'singlecommand', [], ['/bin/bash']),
+    (_config_dict, 'interpolate', ['test'], ['/bin/bash', 'test', 'testing']),
+    (_config_dict, 'simple', ['implicit', 'args'], ['bash', 'implicit', 'args']),
+    (
+        _config_dict,
+        'ip',
+        ['test', 'ing'],
+        ['bash', 'quoted string', 'test', 'ing', 'testing']
+    ),
+    (
+        _config_dict,
+        'ip',
+        ['test ing'],
+        ['bash', 'quoted string', 'test ing', 'testing']
+    ),
+])
+def test_Config_interpolate_command(config_dict, command, posargs, result):
+    cp = ConfigParser()
+    cp.read_dict(config_dict)
+    cfg = config.Config(cp)
+
+    assert cfg.interpolate_command(command, posargs) == result
+
+
+def test_config_interpolate_command_not_found():
+    cp = ConfigParser()
+    cp.read_dict(_config_dict)
+    cfg = config.Config(cp)
+
+    with pytest.raises(KeyError) as e:
+        cfg.interpolate_command('nonexistent', [])
+
+    assert 'Command does not exist' in e.value.args[0]
