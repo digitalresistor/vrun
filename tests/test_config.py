@@ -71,6 +71,7 @@ def test_quoted_combine_invalid(parts):
     (os.path.join('configtest', 'vrun_ini'), 'vrun.ini'),
     (os.path.join('configtest', 'setup_cfg'), 'setup.cfg'),
     (os.path.join('configtest', 'setup_cfg_no_section'), None),
+    (os.path.join('configtest', 'empty'), None),
 ])
 def test_find_config(folder, result):
     curpath = os.path.dirname(os.path.realpath(__file__))
