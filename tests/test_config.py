@@ -68,9 +68,9 @@ def test_quoted_combine_invalid(parts):
 
 @pytest.mark.parametrize('folder, result', [
     ('configtest', 'vrun.cfg'),
-    ('configtest/vrun_ini', 'vrun.ini'),
-    ('configtest/setup_cfg', 'setup.cfg'),
-    ('configtest/setup_cfg_no_section', None),
+    (os.path.join('configtest', 'vrun_ini'), 'vrun.ini'),
+    (os.path.join('configtest', 'setup_cfg'), 'setup.cfg'),
+    (os.path.join('configtest', 'setup_cfg_no_section'), None),
 ])
 def test_find_config(folder, result):
     curpath = os.path.dirname(os.path.realpath(__file__))
