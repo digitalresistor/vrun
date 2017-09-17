@@ -9,4 +9,5 @@ include LICENSE
 include .coveragerc
 include tox.ini appveyor.yml .travis.yml rtd.txt
 
+exclude vrun.cfg
 recursive-exclude * __pycache__ *.py[cod]
