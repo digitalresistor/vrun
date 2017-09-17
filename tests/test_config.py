@@ -122,6 +122,7 @@ _config_dict = {
             'simple': 'bash',
             'interpolate': '/bin/bash {posargs} testing',
             'ip': 'bash "quoted string" {posargs} testing',
+            'python.version': 'python --version',
         }
     }
 
@@ -141,6 +142,12 @@ _config_dict = {
         'ip',
         ['test ing'],
         ['bash', 'quoted string', 'test ing', 'testing']
+    ),
+    (
+        _config_dict,
+        'python.version',
+        [],
+        ['python', '--version']
     ),
 ])
 def test_Config_interpolate_command(config_dict, command, posargs, result):

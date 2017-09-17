@@ -140,6 +140,11 @@ def test_main_execve_failed(
         ['python', 'some', 'sample', 'posargs', 'testing']
     ),
     (
+        'configtest',
+        ['python.version'],
+        ['python', '--version']
+    ),
+    (
         os.path.join('configtest', 'vrun_ini'),
         ['print_testing'],
         ['python', '-c', 'print("testing")']
