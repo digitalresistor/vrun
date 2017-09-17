@@ -128,6 +128,99 @@ def test_main_execve_failed(
     assert re.search('Executable: .*python', err)
 
 
+@pytest.mark.parametrize('folder, argv, argv_result', [
+    (
+        'configtest',
+        ['print_testing'],
+        ['python', '-c', 'print("testing")']
+    ),
+    (
+        'configtest',
+        ['posargs_testing', 'some', 'sample', 'posargs'],
+        ['python', 'some', 'sample', 'posargs', 'testing']
+    ),
+    (
+        os.path.join('configtest', 'vrun_ini'),
+        ['print_testing'],
+        ['python', '-c', 'print("testing")']
+    ),
+    (
+        os.path.join('configtest', 'vrun_ini'),
+        ['posargs_testing', 'some', 'sample', 'posargs'],
+        ['python', 'some', 'sample', 'posargs', 'testing']
+    ),
+    (
+        os.path.join('configtest', 'setup_cfg'),
+        ['print_testing'],
+        ['python', '-c', 'print("testing")']
+    ),
+    (
+        os.path.join('configtest', 'setup_cfg'),
+        ['posargs_testing', 'some', 'sample', 'posargs'],
+        ['python', 'some', 'sample', 'posargs', 'testing']
+    ),
+    (
+        os.path.join('configtest', 'setup_cfg_no_section'),
+        ['python'],
+        ['python']
+    ),
+    (
+        os.path.join('configtest', 'empty'),
+        ['python'],
+        ['python']
+    ),
+    (
+        os.path.join('configtest', 'bad'),
+        ['python'],
+        ['python']
+    ),
+])
+def test_main_with_config(
+    folder,
+    argv,
+    argv_result,
+    monkeypatch,
+    disable_exec_bin,
+    update_sys_argv,
+    update_os_environ
+):
+    curpath = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.path.join(curpath, folder)
+
+    monkeypatch.setattr(os, 'getcwd', lambda: cwd)
+
+    update_sys_argv(['vrun'] + argv)
+    update_os_environ({})
+
+    cli.main()
+
+    assert disable_exec_bin.called is True
+    assert disable_exec_bin.argv == argv_result
+
+
+def test_main_with_bad_config(
+    monkeypatch,
+    disable_exec_bin,
+    update_sys_argv,
+    update_os_environ,
+    capsys
+):
+    curpath = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.path.join(curpath, 'configtest', 'bad')
+
+    monkeypatch.setattr(os, 'getcwd', lambda: cwd)
+    update_sys_argv(['vrun'] + ['python'])
+    update_os_environ({})
+
+    cli.main()
+
+    assert disable_exec_bin.called is True
+    assert disable_exec_bin.argv == ['python']
+
+    out, err = capsys.readouterr()
+    assert 'may be malformed' in err
+
+
 class DummyExit(Exception):
     def __init__(self, code, *args, **kw):
         self.code = code
