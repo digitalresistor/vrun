@@ -54,7 +54,13 @@ def main():
     execbin = newargv[0]
 
     if os.sep not in execbin:
-        execbin = get_exec_path(binpath, execbin)
+        if cfg:
+            if cfg.has_command(execbin):
+                newargv = cfg.interpolate_command(execbin, newargv[1:])
+                execbin = newargv[0]
+
+        if os.sep not in execbin:
+            execbin = get_exec_path(binpath, execbin)
 
     if not os.path.exists(execbin):
         print('vrun requires that the target executable exists.', file=sys.stderr)
