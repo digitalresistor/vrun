@@ -4,7 +4,10 @@ import itertools
 from .compat import ConfigParser
 
 
-def find_config(path=os.getcwd()):
+def find_config(path=None):
+    if path is None:
+        path = os.getcwd()
+
     check_files = [
         # config file, check for vrun section
         ('vrun.cfg', False),
@@ -23,6 +26,8 @@ def find_config(path=os.getcwd()):
                     return p
             else:
                 return p
+    else:
+        return None
 
 
 def config_from_file(path):
