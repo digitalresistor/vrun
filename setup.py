@@ -18,7 +18,7 @@ tests_require = [
 
 setup(
     name='vrun',
-    version='0.3',
+    version='0.4',
     description=(
         "Adds Python's bin/Scripts directory to PATH before executing a command. "
         "Primarily used with Python virtual environments."
